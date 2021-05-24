@@ -1,0 +1,141 @@
+void queuepush(){
+         if(isFull() || isEmpty()){
+             System.out.println("Circular Queue cannot be push");
+         }
+         else{
+             if(circularQueueElements[0] != null){
+                 System.out.println("Circular Queue cannot be push");
+             }
+                 
+             else{
+                 
+             int a;
+             for( a=0;a<circularQueueElements.length;a++){
+                 
+                    if(a==circularQueueElements.length-1){
+                        circularQueueElements[a] = null;
+                    }
+                    else{
+                     passdata =   circularQueueElements[a+1];
+                     circularQueueElements[a] = circularQueueElements[a+1];
+                     circularQueueElements[a+1] =  passdata;
+                    }
+         }
+             System.out.println("\n Queue Pushed \n");
+             front -= 1;
+             rear -= 1;
+     } // else close for queuepush
+         }
+     }
+     
+    public void enqueue(E item) throws QueueFullException {
+        int checkfull =1;
+        int count =0;
+        
+        if (isFull()) {
+            for(int c=0;c<circularQueueElements.length;c++){
+            if(circularQueueElements[c] == null)
+            {
+                count++;
+            }
+        }
+        if(count == circularQueueElements.length-1)
+            checkfull=1;
+        if(count <= 1){
+            if(circularQueueElements[circularQueueElements.length] != null){
+            System.out.println("Please push first before enqueue");
+            }
+            
+        }
+        if(count==1){
+
+           for(int b=0;b<circularQueueElements.length;b++){
+            if(circularQueueElements[b] == null || b !=0){
+
+            circularQueueElements[b] = item;
+            currentSize++;
+            }
+        }
+        }
+            checkfull =0;
+        }
+        if(checkfull==1){
+        
+            rear = (rear + 1) % circularQueueElements.length;
+            circularQueueElements[rear] = item;
+            currentSize++;
+            
+            if (front == -1) {
+				front = rear;
+                               
+			}
+            
+        }
+        
+        
+    }
+    /**
+     * Dequeue element from Front.
+     */
+    public E dequeue() throws QueueEmptyException {
+        E deQueuedElement;
+        if (isEmpty()) {
+            throw new QueueEmptyException("Circular Queue is empty. Element cannot be retrieved");
+        }
+        else {
+            deQueuedElement = circularQueueElements[front];
+            circularQueueElements[front] = null;
+            front = (front + 1) % circularQueueElements.length;
+            currentSize--;
+        }
+        return deQueuedElement;
+    }
+
+    /**
+     * Check if queue is full.
+     */
+    public boolean isFull() {
+        return (currentSize == circularQueueElements.length);
+    }
+    
+    /**
+     * Check if Queue is empty.
+     */
+    public boolean isEmpty() {
+        return (currentSize+1 == 0);
+    }
+
+    @Override
+    public String toString() {
+        return "CircularQueue [" + Arrays.toString(circularQueueElements) + "]";
+    }
+
+}
+
+class QueueFullException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
+
+    public QueueFullException() {
+        super();
+    }
+
+    public QueueFullException(String message) {
+        super(message);
+    }
+
+}
+
+class QueueEmptyException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
+
+    public QueueEmptyException() {
+        super();
+    }
+
+    public QueueEmptyException(String message) {
+        super(message);
+    }
+
+}
